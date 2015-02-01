@@ -57,3 +57,8 @@ class Polynom():
 					return False
 			return True
 		else : return False
+	def __neg__(self):
+		coefs = [0]**self.deg()
+		for i in range(self.deg()):
+			coefs[i] = -self.coefs[i]
+		return Polynom(coefs)
