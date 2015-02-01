@@ -9,12 +9,12 @@ class Polynom():
 		else : self.coefs = coefs
 
 	def __add__(self, other):
-		return Polynom([self[x]+other[x] for x in range(max(self.deg()-1, other.deg()-1))])
+		return Polynom([self[x]+other[x] for x in range(max(self.deg(), other.deg()))])
 	
 	def __iadd__(self, other):
 		while self.deg() < other.deg():
 			self.coefs.append(0)
-		for x in range(self.deg()-1):
+		for x in range(self.deg()):
 			self[x] += other[x]
 		return self
 
@@ -23,7 +23,11 @@ class Polynom():
 		else : return self.coefs[i]
 
 	def deg(self):
-		return len(self.coefs)-1 # TODO : Eliminer les coefficients nuls
+		count = -1
+		for i in self:
+			if i == 0:
+				return count
+			count += 1
 
 	def __mul__(self,other):
 		coefs = [0]*(self.deg() + other.deg()+1)
@@ -45,3 +49,11 @@ class Polynom():
 		for i in range(self.deg()+1):
 			out += str(self[i]) + "X^"+str(i) + " + "
 		return out
+
+	def __eq__(self, other):
+		if self.deg() == other.deg():
+			for i in range(self.deg()):
+				if self[i] != other[i]:
+					return False
+			return True
+		else : return False
