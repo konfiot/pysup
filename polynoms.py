@@ -83,3 +83,12 @@ class Polynom():
 			Q,R = Polynom.division(A+(-(C*B)), B)
 		return Q+C,R
 
+
+	def __floordiv__(A,B):
+		Q,R = Polynom.division(A,B)
+		return Q
+
+	def __mod__(A,B):
+		Q,R = Polynom.division(A,B)
+		return R
+
