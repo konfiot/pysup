@@ -128,3 +128,9 @@ class Polynom():
 	def __xor__(A,B):
 		P,X,Y = misc.euclide(A,B)
 		return P*(1/P[P.deg()])
+
+	def evaluate(self, t)
+		out = 0
+		for i,c in enumerate(self.coefs):
+			out += (c**i)*t
+		return out
