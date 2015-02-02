@@ -1,3 +1,5 @@
+import misc
+
 class Polynom():
 	def __init__(self, coefs, maincoef = False):
 		if maincoef :
@@ -9,14 +11,31 @@ class Polynom():
 		else : self.coefs = coefs
 
 	def __add__(self, other):
+		if not isinstance(other, Polynom):
+			other = Polynom([other])
 		return Polynom([self[x]+other[x] for x in range(max(self.deg(), other.deg())+1)])
 	
 	def __iadd__(self, other):
+		if not isinstance(other, Polynom):
+			other = Polynom([other])
+
 		while self.deg() < other.deg():
 			self.coefs.append(0)
 		for x in range(self.deg()):
 			self[x] += other[x]
 		return self
+
+	def __sub__(self, other):
+		return self + (-other)
+
+	def __radd__(self, other):
+		return self+other
+
+	def __rsub__(self, other):
+		return self-other
+
+	def __rmul__(self, other):
+		return self*other
 
 	def __getitem__(self, i):
 		if i > len(self.coefs)-1 : return 0
@@ -24,13 +43,18 @@ class Polynom():
 
 	def deg(self):
 		if self.coefs == [0]*len(self.coefs):
+			self.coefs = [0]
 			return -1
 
 		while self.coefs[-1] == 0:
 			del self.coefs[-1]
+
 		return len(self.coefs)-1
 
 	def __mul__(self,other):
+		if not isinstance(other, Polynom):
+			other = Polynom([other])
+		
 		coefs = [0]*(self.deg() + other.deg()+1)
 		for k in range(self.deg() + other.deg()+1):
 			for i in range(k+1):
@@ -52,6 +76,9 @@ class Polynom():
 		return out[0:-3]
 
 	def __eq__(self, other):
+		if type(other) == int:
+			return True if self.deg() <= 0 and self[0] == other else False
+
 		if self.deg() == other.deg():
 			for i in range(self.deg()):
 				if self[i] != other[i]:
@@ -91,4 +118,13 @@ class Polynom():
 	def __mod__(A,B):
 		Q,R = Polynom.division(A,B)
 		return R
+	
+	def __gt__(A,B):
+		return A.deg() > B.deg()
 
+	def __lt__(A,B):
+		return A.deg() < B.deg()
+
+	def __xor__(A,B):
+		P,X,Y = misc.euclide(A,B)
+		return P*(1/P[P.deg()])
