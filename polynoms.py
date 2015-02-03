@@ -70,9 +70,22 @@ class Polynom():
 		return self
 
 	def __str__(self):
+		up = ["⁰","¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹"]
 		out = ""
 		for i in range(len(self.coefs)):
-			out += str(self[i]) + "X^"+str(i) + " + "
+			if self[i] == 0:
+				continue
+
+			exposant = ""
+			x = i
+			if i > 0 :
+				if i > 1:
+					while x > 0:
+						exposant = up[x%10] + exposant
+						x //= 10
+				exposant = "x" + exposant
+			out += str(self[i]) + exposant +  " + "
+
 		return out[0:-3]
 
 	def __eq__(self, other):
@@ -129,8 +142,13 @@ class Polynom():
 		P,X,Y = misc.euclide(A,B)
 		return P*(1/P[P.deg()])
 
-	def evaluate(self, t)
+	def evaluate(self, t):
 		out = 0
 		for i,c in enumerate(self.coefs):
 			out += (c**i)*t
 		return out
+
+	def ppcm(A,B):
+		return A//((A^B)*A[A.deg()]*B[B.deg()])
+
+X = Polynom([0,1])
