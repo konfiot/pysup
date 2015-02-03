@@ -110,9 +110,17 @@ class Polynom():
 		if p == 0:
 			return Polynom([1])
 		else :
-			for i in range(p-1):
-				P *= self
-		return P
+			table = []
+			while p > 0:
+				if p%2:
+					table.append(Polynom(P.coefs))
+				p //= 2
+				P *= P
+		
+		out  = 1
+		for A in table :
+			out *= A
+		return out
 
 	@staticmethod
 	def division(A,B):
