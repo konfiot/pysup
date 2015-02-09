@@ -159,4 +159,9 @@ class Polynom():
 	def ppcm(A,B):
 		return A//((A^B)*A[A.deg()]*B[B.deg()])
 
+	def diff(self, n):
+		for k in range(n):
+			for i in range(self.deg()-1):
+				self.coefs[i] = self.coefs[i+1]*(i+1)
+
 X = Polynom([0,1])
