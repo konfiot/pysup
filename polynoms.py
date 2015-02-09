@@ -160,13 +160,19 @@ class Polynom():
 		return A//((A^B)*A[A.deg()]*B[B.deg()])
 
 	def diff(self, n):
+		coefs = [coef for coef in self.coefs]
 		for k in range(n):
-			for i in range(self.deg()-1):
-				self.coefs[i] = self.coefs[i+1]*(i+1)
+			for i in range(len(coefs)-1):
+				coefs[i] = coefs[i+1]*(i+1)
+			coefs[-1] = 0
+		return Polynom(coefs)
 
 	def integrate(self, k):
-		for i in range(1, self.deg()+1):
-			self.coefs[i] = self.coefs[i-1]/(i-1)
-
+		coefs = [coef for coef in self.coefs]
+		coefs.append(0)
+		for i in range(len(coefs)-1, 0, -1):
+			coefs[i] = coefs[i-1]/i
+		coefs[0] = k
+		return Polynom(coefs)
 
 X = Polynom([0,1])
