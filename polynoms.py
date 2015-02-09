@@ -164,4 +164,9 @@ class Polynom():
 			for i in range(self.deg()-1):
 				self.coefs[i] = self.coefs[i+1]*(i+1)
 
+	def integrate(self, k):
+		for i in range(1, self.deg()+1):
+			self.coefs[i] = self.coefs[i-1]/(i-1)
+
+
 X = Polynom([0,1])
