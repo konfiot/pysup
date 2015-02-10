@@ -1,4 +1,5 @@
 import misc
+from fraction import MFraction
 
 class Polynom():
 	def __init__(self, coefs, maincoef = False):
@@ -127,7 +128,7 @@ class Polynom():
 		if B.deg() > A.deg():
 			return (Polynom([0]),A)
 		else :
-			C = Polynom([A[A.deg()]/B[B.deg()]])*(Polynom([0,1])**(A.deg()-B.deg()))
+			C = Polynom([MFraction(A[A.deg()],B[B.deg()])])*(Polynom([0,1])**(A.deg()-B.deg()))
 			Q,R = Polynom.division(A+(-(C*B)), B)
 		return Q+C,R
 
@@ -148,7 +149,7 @@ class Polynom():
 
 	def __xor__(A,B):
 		P,X,Y = misc.euclide(A,B)
-		return P*(1/P[P.deg()])
+		return P*(MFraction(1,P[P.deg()]))
 
 	def evaluate(self, t):
 		out = 0
